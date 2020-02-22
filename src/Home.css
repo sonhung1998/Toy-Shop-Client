@@ -1,0 +1,37 @@
+
+.row-footer {
+  background-color: #262626;
+  text-align: center;
+  height: 100px;
+  color: white;
+}
+.row-footer .ant-col {
+  line-height: 100px;
+  font-size: larger;
+  border-style: solid;
+  border-color: white;
+  border-width: 0.1px;
+}
+.row-footer .ant-col:hover{
+  background-color: #595959;
+}
+.row-footer .ant-col .anticon {
+  font-size: xx-large;
+}
+.row-footer-last {
+  height: inherit;
+  background-color: black;
+}
+.row-footer-last .ant-col {
+  height: inherit;
+}
+.row-footer-last .ant-col .anticon {
+ font-size: larger;
+}
+.row-footer-last .ant-col dl{
+   margin-left:41%; 
+   margin-top: 30px;
+}
+.ant-back-top-content{
+  border-style: solid;
+}
