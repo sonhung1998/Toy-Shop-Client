@@ -46,7 +46,7 @@ const Home = (props) => {
     //     };
     //     fetchData();
     // }, []);
-    test.
+
     return (
 
         <React.Fragment>
