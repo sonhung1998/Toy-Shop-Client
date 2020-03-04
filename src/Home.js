@@ -1,54 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
-    Button, Layout, Icon, Row, Col, Input, Menu, Carousel,
-    Card, Avatar, Affix, Badge, Tag, BackTop, Divider, Drawer
+    Layout, Icon, Row, Col, Input, Menu, Carousel,
+    Card, Avatar, Affix, Badge, Tag, BackTop
 } from 'antd';
 import './Home.css';
-import APIClient from './APIClient.js'
-import axios from 'axios'
-import images from './Images.js'
+import ProductList from './product/ProductList'
+import CartContext from './contexts/CartContext.js'
+import CartProvider from './contexts/CartProvider.js'
 const { Header, Footer, Sider, Content } = Layout;
 const { Search } = Input;
-const { SubMenu } = Menu;
+const { Meta } = Card;
 
-
-const { Meta } = Card
 const des = "Trẻ trung và cuốn hút theo phong cách đường phố thu-đông với áo nỉ thêu hình động vật của thương hiệu Asos.- Chất liệu cotton pha- Cổ 3cm- Tay dài, suông- Không lót trong- Màu sắc: XámHướng dẫn sử dụng:- Giặt bằng tay với nhiệt độ không quá 30°C- Không được tẩy- Không được sấy khô- Ủi với nhiệt độ..."
-const gridStyle = {
-    textAlign: 'center',
-    width: '25%'
-};
 
 const importAll = (r) => {
     return r.keys().map(r);
 }
 const Banner = importAll(require.context('./Images/Banner', false, /\.(png|jpe?g|svg)$/));
 const Home = (props) => {
-    // let [data, setData] = useState(null);
-
-    // useEffect(() => {
-    //     console.log('use Effect call');
-    //     const fetchData = async () => {
-    //         try {
-    //             const { data } = await axios.get('http://localhost:8080/api/products', {
-    //                 mode: 'no-cors',
-    //                 headers: {
-    //                     'Access-Control-Allow-Origin': '*',
-    //                     'Content-Type': 'application/json',
-    //                 }
-    //             });
-    //             console.log('data fetch:', data)
-    //             setData(data);
-    //         } catch (error) {
-    //             console.error('Error while fetch data:', error);
-    //         }
-
-    //     };
-    //     fetchData();
-    // }, []);
-
     return (
-
         <React.Fragment>
             <Layout>
                 <BackTop style={{ right: '12px' }}>
@@ -58,15 +28,14 @@ const Home = (props) => {
                         color: 'white',
                         height: '100%',
                         padding: '0'
-
                     }
                 }>
                     <Row style={{ padding: '0px 15px' }}>
                         <Col span={8}>
                             <Icon type="mail" />&emsp;sonhung3198@gmail.com&emsp;
-                                |&emsp;<Icon type="phone" />&emsp;0356859536
-                            </Col>
-                           
+                                            |&emsp;<Icon type="phone" />&emsp;0356859536
+                                        </Col>
+
                         <Col span={8} style={{ paddingLeft: '296px' }}>
                             <span>
                                 <a><Icon type="login" />&nbsp;Đăng nhập</a>
@@ -92,27 +61,33 @@ const Home = (props) => {
                                         >
                                             <Menu.Item key="index">
                                                 TRANG CHỦ
-                                        </Menu.Item>
+                                                    </Menu.Item>
                                             <Menu.Item key="intro">
                                                 GIỚI THIỆU
-                                        </Menu.Item>
+                                                    </Menu.Item>
                                             <Menu.Item key="product">
                                                 SẢN PHẨM
-                                        </Menu.Item>
+                                                    </Menu.Item>
                                             <Menu.Item key="news">
                                                 TIN TỨC
-                                        </Menu.Item>
+                                                    </Menu.Item>
                                             <Menu.Item key="contact">
                                                 LIÊN HỆ
-                                    </Menu.Item>
+                                                </Menu.Item>
                                         </Menu>
                                     </Col>
                                     <Col span={6} style={{ color: 'black', bottom: '13px' }}>
                                         <span >
-                                            <Tag color="geekblue">Shopping-Cart:</Tag>&nbsp;
-                                                <Badge count={5} dot>
-                                                <Avatar shape="square" icon="shopping-cart" size="large">
-                                                </Avatar>
+                                            <Tag color="geekblue">
+                                                <strong>
+                                                    Shopping-Cart :
+                                                                </strong>
+                                            </Tag>&nbsp;
+                                                                <Badge count={0} showZero >
+                                                <Avatar
+                                                    shape="square"
+                                                    icon="shopping-cart"
+                                                    size="large" />
                                             </Badge>
                                         </span>
                                     </Col>
@@ -131,7 +106,7 @@ const Home = (props) => {
                                             }
                                         }>
                                             WORLD CAR
-                                            </strong>
+                                                        </strong>
                                     </Col>
                                     <Col span={12}>
 
@@ -202,7 +177,7 @@ const Home = (props) => {
                                                 )
                                             })
                                         }
-                              
+
                                     </Carousel>
                                 </Row>
                                 <Row>
@@ -226,10 +201,10 @@ const Home = (props) => {
                                                     <br />
                                                     Giá:
                                                     &nbsp;
-                                                        <u style={{ textDecoration: "line-through" }}>
+                                                                    <u style={{ textDecoration: "line-through" }}>
                                                         120000 VND</u>
                                                     &nbsp;
-                                                            <strong style={{ color: 'red' }}>100000 VND</strong>
+                                                                        <strong style={{ color: 'red' }}>100000 VND</strong>
                                                 </div>
                                             }
 
@@ -316,107 +291,8 @@ const Home = (props) => {
                     </Content>
                 </Layout>
                 <Footer style={{ marginTop: '35px', padding: '0' }}>
-                    <Row>
-                        <Drawer>
-
-                        </Drawer>
-                        <Card title="Danh sách sản phẩm"
-                            style={{ marginLeft: '216px' }}
-                            extra={<a>+Filters</a>}>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        // src={require('./Images/banner1.jpg')} />
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
-                                    }
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                            <Card.Grid style={gridStyle}>
-                                <Card
-                                    hoverable
-                                    style={{ width: 200, margin: 'auto' }}
-                                    cover={<img alt="example"
-                                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                                    bordered={false}
-                                >
-                                    <Meta title="Europe Street beat" description="www.instagram.com" />
-                                </Card>,
-                            </Card.Grid>
-                        </Card>
-                    </Row>
+                    <ProductList />
                     <Row
-
                         style={
                             {
                                 backgroundColor: 'black',
@@ -428,15 +304,15 @@ const Home = (props) => {
                         <Row className='row-footer'>
                             <Col span={8}>
                                 <Icon type="phone" theme="twoTone" twoToneColor="blue" />&emsp;
-                                    <strong>HỖ TRỢ MIẾN PHÍ</strong>
+                                                <strong>HỖ TRỢ MIẾN PHÍ</strong>
                             </Col>
                             <Col span={8}>
                                 <Icon type="dollar" theme="twoTone" twoToneColor="green" />&emsp;
-                                    <strong>100% CHÍNH HÃNG</strong>
+                                                <strong>100% CHÍNH HÃNG</strong>
                             </Col>
                             <Col span={8}>
                                 <Icon type="car" theme="twoTone" />&emsp;
-                                    <strong>GIAO HÀNG TẬN NƠI</strong></Col>
+                                                <strong>GIAO HÀNG TẬN NƠI</strong></Col>
                         </Row>
                         <Row className='row-footer-last'>
                             <Row>
@@ -447,13 +323,13 @@ const Home = (props) => {
                                         </dd>
                                         <dd>
                                             Giới thiệu
-                                        </dd>
+                                                    </dd>
                                         <dd>
                                             Giao hàng
-                                        </dd>
+                                                    </dd>
                                         <dd>
                                             Đổi trả
-                                        </dd>
+                                                    </dd>
                                     </dl>
                                 </Col>
                                 <Col span={6}>
@@ -479,13 +355,13 @@ const Home = (props) => {
                                         </dd>
                                         <dd>
                                             Hướng dẫn mua hàng
-                                        </dd>
+                                                    </dd>
                                         <dd>
                                             Hưỡng dẫn thanh toán
-                                        </dd>
+                                                    </dd>
                                         <dd>
                                             Tài khoản giao dịch
-                                        </dd>
+                                                    </dd>
                                     </dl>
                                 </Col>
                                 <Col span={6}>
@@ -508,6 +384,4 @@ const Home = (props) => {
         </React.Fragment>
     )
 }
-
-
 export default Home;
