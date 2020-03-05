@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import CartContext from './CartContext.js'
+
 const CartProvider = (props) => {
-    const [cart, setCart] = useState(0);
+    const [cart, setCart] = useState([]);
     return (
         <CartContext.Provider value={{
-            cartNumber: cart,
+            cartList: cart,
             updateCart: setCart
         }}>
             {props.children}
