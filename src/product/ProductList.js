@@ -5,12 +5,16 @@ import CartContext from '../contexts/CartContext.js'
 import './ProductList.css'
 import { CheckOutlined } from '@ant-design/icons'
 import _ from 'lodash'
+import { useHistory } from 'react-router-dom'
 const { Meta } = Card;
 
 const ProductList = (props) => {
+
+    const history = useHistory();
     const { cartList, updateCart } = useContext(CartContext);
     let [data, setData] = useState(null);
     const [visible, setVisible] = useState(false);
+
     const fetchData = async () => {
         try {
             const response = await APIClient.GET('/products')
@@ -25,6 +29,10 @@ const ProductList = (props) => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleSubmitCart = () => {
+        history.push("/order");
+    }
 
     const addToCart = (product) => {
         const productIndex = _.findLastIndex(cartList, { 'id': product.id })
@@ -105,7 +113,7 @@ const ProductList = (props) => {
     return (
         <Row>
             <Card title="Danh sách sản phẩm"
-                style={{ marginLeft: '216px' }}
+                style={{ marginLeft: '264px' }}
                 extra={<a>+Filters</a>}
             >
                 {
@@ -184,7 +192,10 @@ const ProductList = (props) => {
                 cancelText="<- Tiếp tục mua hàng"
                 okText="Tiến hành đặt hàng ->"
                 onCancel={() => { setVisible(false) }}
-                
+                onOk={() => {
+                    handleSubmitCart()
+                }}
+
             >
                 <Table
                     dataSource={cartList}

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import CartContext from '../contexts/CartContext.js'
-import { Popover, Badge, Avatar, List } from 'antd'
+import CartContext from '../../contexts/CartContext.js'
+import { Popover, Badge, Avatar, List, Divider, Button } from 'antd'
+import { Link } from 'react-router-dom'
 const Cart = () => {
     let { cartList } = useContext(CartContext);
     let cartAmount = 0;
@@ -14,7 +15,23 @@ const Cart = () => {
             <List
                 itemLayout="horizontal"
                 dataSource={cartList}
-                footer={<p>Tổng tiền: {totalPrice} VND</p>}
+                footer={
+                    <div>
+                        <p>Tổng tiền: {totalPrice} VND</p>
+                        <Divider />
+                        <Link to="/order">
+                            <Button
+                                type="primary"
+                                icon="shopping-cart"
+                                style={{ marginLeft: '38px' }}
+                            >
+                                Tiến hành đặt hàng
+                            </Button>
+                        </Link>
+
+                    </div>
+
+                }
                 renderItem={
                     item => (
                         <List.Item>
@@ -22,7 +39,7 @@ const Cart = () => {
                                 avatar=
                                 {
                                     <Avatar
-                                        src={require(`../../../Public/Images/${item.image}`)}
+                                        src={require(`../../../../Public/Images/${item.image}`)}
                                         size={90}
                                         shape='square'
                                     />
@@ -34,7 +51,6 @@ const Cart = () => {
                                 description={
                                     <div>
                                         <p style={{ marginTop: '10px', color: 'red' }}>{`Giá: ${item.price} VND`}</p>
-                                        {/* <br /> */}
                                         <p>{`Số lượng: ${item.amount}`}</p>
                                     </div>
 

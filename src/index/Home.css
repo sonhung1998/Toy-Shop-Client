@@ -35,3 +35,6 @@
 .ant-back-top-content{
   border-style: solid;
 }
+.ant-avatar-image{
+  border-style: none
+}
