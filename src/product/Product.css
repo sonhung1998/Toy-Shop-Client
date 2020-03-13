@@ -1,0 +1,18 @@
+.avatar img {
+  object-fit: contain;
+}
+.card-meta-product {
+  margin-left: 238px;
+}
+.card-meta-product strong {
+  font-size: 2em;
+  color: #1890ff;
+}
+.card-meta-product .ant-row {
+  margin-bottom: 12.1px;
+  font-size: 1.2em;
+}
+.card-meta-product .ant-tag {
+  font-size: 15px;
+  padding: 5px;
+}

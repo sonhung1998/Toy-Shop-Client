@@ -5,7 +5,7 @@ import CartContext from '../contexts/CartContext.js'
 import './ProductList.css'
 import { CheckOutlined } from '@ant-design/icons'
 import _ from 'lodash'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 const { Meta } = Card;
 
 const ProductList = (props) => {
@@ -113,7 +113,6 @@ const ProductList = (props) => {
     return (
         <Row>
             <Card title="Danh sách sản phẩm"
-                style={{ marginLeft: '264px' }}
                 extra={<a>+Filters</a>}
             >
                 {
@@ -133,7 +132,7 @@ const ProductList = (props) => {
                                 >
                                     <Card
                                         hoverable
-                                        style={{ width: 300, margin: 'auto' }}
+                                        style={{ width: 290, margin: 'auto' }}
                                         cover={
                                             <img alt="example"
                                                 style={{
@@ -151,16 +150,26 @@ const ProductList = (props) => {
                                             <Button
                                                 type="primary"
                                                 icon="shopping-cart"
-                                                style={{ marginRight: '10px' }}
+                                                style={{ marginRight: '2px' }}
                                                 onClick={() => { addToCart(item) }}
                                             >
                                                 Thêm vào giỏ
                                             </Button>
-                                            <Button type="primary"
-                                                icon="search"
+                                            <Link to={
+                                                {
+                                                    pathname: `/product/${item.name}`,
+                                                    state: { id: item.id }
+                                                }
+                                            }
                                             >
-                                                Xem sản phẩm
+                                                <Button
+                                                    type="primary"
+                                                    icon="search"
+                                                >
+                                                    Xem sản phẩm
                                             </Button>
+                                            </Link>
+
                                         </span>
 
                                         <Meta style={{ marginTop: '8px', textAlign: 'center' }}
@@ -213,12 +222,14 @@ const Counter = (props) => {
     const { amountInit } = props;
     const { cartList, updateCart } = useContext(CartContext);
     const [amount, setAmount] = useState(amountInit);
-    let { product } = props;
+    let product = props.product;
     const productIndex = _.findLastIndex(cartList, { 'id': product.id });
+    product = productIndex >= 0 ? cartList[productIndex] : product;
     useEffect(() => { setAmount(amountInit) }, [amountInit]);
     const handleCartChange = (option) => {
         if (option === true) {
             product.amount++;
+            console.log(product.amount)
             setAmount(amount + 1);
         }
         else {
@@ -228,8 +239,12 @@ const Counter = (props) => {
             product.amount--;
             setAmount(amount - 1)
         }
-        if (productIndex > 0) {
+        if (productIndex >= 0) {
             cartList[productIndex] = product;
+        }
+        else {
+            console.log('add new product to cart')
+            cartList.push(product);
         }
         updateCart([...cartList]);
 
@@ -245,7 +260,7 @@ const Counter = (props) => {
                 +
              </Button>
             &nbsp;
-                    {amount}
+            {amount}
             &nbsp;
             <Button
                 size="small"
@@ -260,4 +275,4 @@ const Counter = (props) => {
 
 }
 
-export default ProductList
+export { ProductList, Counter }

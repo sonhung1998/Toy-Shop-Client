@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import CartContext from '../../contexts/CartContext.js'
+import CartContext from '../../../contexts/CartContext.js'
 import { Popover, Badge, Avatar, List, Divider, Button } from 'antd'
 import { Link } from 'react-router-dom'
 const Cart = () => {
@@ -39,7 +39,7 @@ const Cart = () => {
                                 avatar=
                                 {
                                     <Avatar
-                                        src={require(`../../../../Public/Images/${item.image}`)}
+                                        src={require(`../../../../../Public/Images/${item.image}`)}
                                         size={90}
                                         shape='square'
                                     />
