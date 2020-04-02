@@ -88,6 +88,7 @@ const Home = (props) => {
                                 }
                             >
                                 <MainContent />
+                                
                                 <Route path="/">
                                     <ProductList />
                                 </Route>

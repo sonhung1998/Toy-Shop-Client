@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCar, faTruck, faCarBattery, faCarSide, faCaravan } from '@fortawesome/free-solid-svg-icons'
 const SiderMenuComponent = (props) => {
     return (
-        <Affix offsetTop={66}>
+        // <Affix offsetTop={66}>
             <Menu
                 // onClick={this.handleClick}
                 defaultSelectedKeys={['2']}
@@ -45,7 +45,7 @@ const SiderMenuComponent = (props) => {
                 <span>Ô tô Biến Hình</span>
                 </Menu.Item>
             </Menu>
-        </Affix>
+        // </Affix>
     )
 }
 export default SiderMenuComponent

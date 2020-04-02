@@ -43,7 +43,7 @@ const Product = (props) => {
                                     className="avatar"
                                     src={require(`../../../Public/Images/${data.image}`)}
                                     shape="square"
-                                    size={515}
+                                    size={488}
                                 />
                             }
                             title=
