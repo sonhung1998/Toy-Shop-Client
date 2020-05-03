@@ -20,9 +20,9 @@ const MainContent = () => {
                             arrows
                         >
                             {
-                                Banner.map(banner => {
+                                Banner.map((banner, index) => {
                                     return (
-                                        <div>
+                                        <div key={index}>
                                             <img
                                                 src={banner}
                                                 height="400px"
@@ -54,12 +54,13 @@ const MainContent = () => {
                                     <div>
                                         <p>{des}</p>
                                         <br />
-                                                    Giá:
-                                                    &nbsp;
-                                                                    <u style={{ textDecoration: "line-through" }}>
-                                            120000 VND</u>
-                                                    &nbsp;
-                                                                        <strong style={{ color: 'red' }}>100000 VND</strong>
+                                         Giá:
+                                         &nbsp;
+                                         <u style={{ textDecoration: "line-through" }}>
+                                            120000 VND
+                                        </u>
+                                         &nbsp;
+                                        <strong style={{ color: 'red' }}>100000 VND</strong>
                                     </div>
                                 }
                             />
@@ -140,7 +141,7 @@ const MainContent = () => {
                     </Card>
                 </Col>
             </Row>
-           
+
         </div>
     )
 }

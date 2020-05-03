@@ -4,9 +4,9 @@ import './Order.css'
 import CartContext from '../contexts/CartContext'
 import { Link } from 'react-router-dom'
 import APIClient from '../utils/APIClient'
-
 const CITY = require('../city.json')
 let DISTRICT = require('../district.json')
+
 const Order = (props) => {
     const { cartList } = useContext(CartContext);
     let cartAmount = 0;
@@ -196,7 +196,7 @@ const Order = (props) => {
 }
 export default Order
 
-const RegistrationForm = (props) => {
+const OrderFormBase = (props) => {
     const { cartList } = useContext(CartContext);
     const [city, setCity] = useState(0);
     DISTRICT = Object.values(DISTRICT);
@@ -219,6 +219,7 @@ const RegistrationForm = (props) => {
     };
 
     const validateName = (rule, value, callback) => {
+        //eslint-disable-next-line
         const regex = RegExp('[\!\@\#\$\%\^\&\*\\\+\=\|\:\;\"\'\<\>\,\.\/\?]+', 'img')
         if (value && regex.test(value)) {
             callback("Trong tên không được phép chứa ký tự đặc biệt !")
@@ -229,6 +230,7 @@ const RegistrationForm = (props) => {
     }
 
     const validateNumber = (rule, value, callback) => {
+        //eslint-disable-next-line
         const regex = RegExp('[^0-9\.]+', 'img')
         if (value && regex.test(value)) {
             callback("Trường này chỉ được phép chứa ký tự số !")
@@ -251,11 +253,9 @@ const RegistrationForm = (props) => {
                 try {
                     await APIClient.POST('/order', data);
                     message.success("Đặt hàng thành công");
-                    
-
                 }
-                catch(error){
-                    message.error("Có lỗi xảy ra:",error)
+                catch (error) {
+                    message.error("Có lỗi xảy ra:", error)
                 }
 
             }
@@ -410,5 +410,5 @@ const RegistrationForm = (props) => {
 
 }
 const FormOrder = Form.create({ name: "order_form" })(
-    RegistrationForm
+    OrderFormBase
 );

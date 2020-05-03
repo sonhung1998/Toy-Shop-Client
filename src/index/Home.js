@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, BackTop, Breadcrumb, Row, Icon } from 'antd';
 import './Home.css';
 import { Route, Switch, useLocation, Link } from 'react-router-dom'
@@ -6,18 +6,19 @@ import { ProductList } from '../product/ProductList'
 import Product from '../product/Product'
 import HeaderComponent from './layout/header/HeaderComponent'
 import FooterComponent from './layout/footer/FooterComponent'
-import SiderMenuComponent from './layout/content/sider/SiderMenuComponent'
+import SiderComponent from './layout/content/sider/SiderComponent'
 import MainContent from './layout/content/MainContent'
 const { Header, Footer, Sider, Content } = Layout;
 
 const Home = (props) => {
-
+  
     const location = useLocation();
     // const breadcrumbNameMap = {
     //     '/apps/2/detail': 'Detail',
     //   };
     const pathSnippets = location.pathname.split('/').filter(i => i);
     console.log('path:', pathSnippets);
+
     const extraBreadcrumbItems = pathSnippets.map((item, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
         return (
@@ -37,7 +38,7 @@ const Home = (props) => {
 
     return (
         <React.Fragment>
-            <Layout>
+            <Layout onScrollCapture={() => { console.log("click") }}>
                 <BackTop style={{ right: '12px' }}>
                 </BackTop>
                 <Header style={
@@ -51,7 +52,7 @@ const Home = (props) => {
                 </Header>
                 <Row style={
                     {
-                        paddingLeft: '263px',
+                        paddingLeft: '295px',
                         borderTop: '0.3px solid',
                         height: '36px',
                         paddingTop: '7px'
@@ -69,18 +70,21 @@ const Home = (props) => {
                     <Route path="/">
                         <Layout
                             style={
-                                { marginTop: '2px' }
+                                {
+                                    marginTop: -15,
+                                    paddingLeft: 30,
+                                }
                             }
                         >
                             <Sider
                                 style={
                                     {
                                         marginTop: '15px',
-                                        backgroundColor: 'none',
+                                        backgroundColor: 'rgb(240, 242, 245)',
                                         height: '100%'
                                     }
                                 }>
-                                <SiderMenuComponent />
+                                <SiderComponent />
                             </Sider>
                             <Content
                                 style={
@@ -88,7 +92,7 @@ const Home = (props) => {
                                 }
                             >
                                 <MainContent />
-                                
+
                                 <Route path="/">
                                     <ProductList />
                                 </Route>

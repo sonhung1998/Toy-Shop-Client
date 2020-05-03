@@ -1,0 +1,11 @@
+.anchor{
+    overflow: unset;
+    padding-left: 0px;
+}
+.anchor .ant-anchor-link {
+    padding: unset;
+    line-height: unset;
+}
+.anchor .ant-anchor-ink-ball{
+    display: none
+}

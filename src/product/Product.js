@@ -6,6 +6,7 @@ import './Product.css'
 import CartContext from '../contexts/CartContext.js'
 import { Counter } from './ProductList'
 import _ from 'lodash'
+
 const Product = (props) => {
     const [data, setData] = useState(null);
     const location = useLocation();
@@ -13,10 +14,12 @@ const Product = (props) => {
     const { id } = state;
     const { cartList } = useContext(CartContext);
     let amountInit = 0;
+
     if (data) {
         const productIndex = _.findLastIndex(cartList, { 'id': data.id });
         amountInit = productIndex < 0 ? 0 : cartList[productIndex].amount
     }
+    
     const fetchData = async () => {
         try {
             const data = await APIClient.GET(`/product/${id}`);

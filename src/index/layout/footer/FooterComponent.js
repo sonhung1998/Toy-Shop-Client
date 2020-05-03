@@ -1,10 +1,11 @@
 import React from 'react'
-import { Row, Col, Icon, Divider, Button } from 'antd'
+import { Row, Col, Icon, Divider } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeadset, faHandHoldingUsd, faTruckMoving } from '@fortawesome/free-solid-svg-icons'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import './FooterComponent.css';
+
 
 const FooterComponent = (props) => {
     const importAll = (r) => {
@@ -43,17 +44,18 @@ const FooterComponent = (props) => {
                     infinite
                     draggable
                     slidesToSlide={2}
-                       
                 >
-                    {Banner.map(banner => {
+                    {Banner.map((banner, index) => {
                         return (
-                            <div>
+                            <div
+                                className="carouselItem"
+                                key={index}
+                            >
                                 <img
                                     src={banner}
                                     height="140px"
                                     width="245px"
                                     alt="banner_carousel"
-
                                 >
                                 </img >
                             </div >
@@ -162,7 +164,7 @@ const FooterComponent = (props) => {
                     </Row>
                     <Divider />
                     <Row style={{ marginTop: '40px', textAlign: 'center' }}>
-                        <p>Copyright © 2020 Antd. <a target="//#region ">Powered by SonHung</a>.</p>
+                        <p>Copyright © 2020 Antd. <a href="#">Powered by SonHung</a>.</p>
                     </Row>
                 </Row>
             </Row>

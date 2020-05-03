@@ -12,7 +12,7 @@
   border-color: white;
   border-width: 0.1px;
 }
-.row-footer .ant-col:hover{
+.row-footer .ant-col:hover {
   background-color: #595959;
 }
 .row-footer .ant-col .anticon {
@@ -26,15 +26,15 @@
   height: inherit;
 }
 .row-footer-last .ant-col .anticon {
- font-size: larger;
+  font-size: larger;
 }
-.row-footer-last .ant-col dl{
-   margin-left:41%; 
-   margin-top: 30px;
+.row-footer-last .ant-col dl {
+  margin-left: 41%;
+  margin-top: 30px;
 }
-.ant-back-top-content{
+.ant-back-top-content {
   border-style: solid;
 }
-.ant-avatar-image{
-  border-style: none
+.ant-avatar-image {
+  border-style: none;
 }

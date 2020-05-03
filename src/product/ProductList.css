@@ -1,16 +1,26 @@
-.ant-list-item :hover img{
-    opacity: 0.5;
-  }
-  .ant-list-item :hover .order-product{
-    opacity: 1;
-  }
-  .order-product{
-    transition: .5s ease;
-    opacity: 0;
-    position: absolute;
-    top: 35%;
-    left: 2px;
-    /* transform: translate(-50%, -50%); */
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
-  }
+.ant-list-item :hover img {
+  opacity: 0.5;
+}
+.ant-list-item :hover .order-product {
+  opacity: 1;
+}
+.order-product {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 35%;
+  left: 2px;
+  /* transform: translate(-50%, -50%); */
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+.productList-title {
+  color: white;
+  text-shadow: gray 0.1em 0.1em 0.2em;
+  font-size: larger;
+  font-weight: bold;
+}
+.icon-title {
+  stroke: black;
+  stroke-width: 5;
+}

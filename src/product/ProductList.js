@@ -6,20 +6,32 @@ import './ProductList.css'
 import { CheckOutlined } from '@ant-design/icons'
 import _ from 'lodash'
 import { useHistory, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCar, faTruck, faCarBattery, faCarSide, faCaravan } from '@fortawesome/free-solid-svg-icons'
 const { Meta } = Card;
 
-const ProductList = (props) => {
+const listCarIcon = [
+    { id: 1, name: faTruck },
+    { id: 2, name: faCar },
+    { id: 3, name: faCarBattery },
+    { id: 4, name: faCarSide },
+    { id: 5, name: faCaravan }
+];
 
-    const history = useHistory();
+const ProductList = (props) => {
     const { cartList, updateCart } = useContext(CartContext);
+    const history = useHistory();
     let [data, setData] = useState(null);
     const [visible, setVisible] = useState(false);
 
     const fetchData = async () => {
         try {
-            const response = await APIClient.GET('/products')
-            console.log('data fetch:', response)
-            setData(response);
+            const responses = await Promise.all([
+                APIClient.GET('/products'),
+                APIClient.GET('/categories')
+            ]);
+            console.log('data fetch:', responses)
+            setData(responses);
         } catch (error) {
             console.error('Error while fetch data:', error);
         }
@@ -112,83 +124,23 @@ const ProductList = (props) => {
     ]
     return (
         <Row>
-            <Card title="Danh sách sản phẩm"
-                extra={<a>+Filters</a>}
-            >
-                {
-                    data && <List
-                        grid={{ gutter: 15, column: 4 }}
-                        dataSource={data}
-                        pagination={{
-                            pageSize: 8,
-                            position: 'bottom',
-                            showSizeChanger: true,
-                            pageSizeOptions: ['8', '16', '24'],
-                        }}
-                        renderItem={item => {
-                            return (
-
-                                <List.Item
-                                >
-                                    <Card
-                                        hoverable
-                                        style={{ width: 290, margin: 'auto' }}
-                                        cover={
-                                            <img alt="example"
-                                                style={{
-                                                    height: '200px',
-                                                    objectFit: 'contain'
-                                                }}
-
-                                                src={require(`../../../Public/Images/${item.image}`)}
-                                                className="product-image"
-                                            />
-                                        }
-                                        bordered={true}
-                                    >
-                                        <span className="order-product">
-                                            <Button
-                                                type="primary"
-                                                icon="shopping-cart"
-                                                style={{ marginRight: '2px' }}
-                                                onClick={() => { addToCart(item) }}
-                                            >
-                                                Thêm vào giỏ
-                                            </Button>
-                                            <Link to={
-                                                {
-                                                    pathname: `/product/${item.name}`,
-                                                    state: { id: item.id }
-                                                }
-                                            }
-                                            >
-                                                <Button
-                                                    type="primary"
-                                                    icon="search"
-                                                >
-                                                    Xem sản phẩm
-                                            </Button>
-                                            </Link>
-
-                                        </span>
-
-                                        <Meta style={{ marginTop: '8px', textAlign: 'center' }}
-                                            title={
-                                                <strong>{item.name}</strong>
-                                            }
-                                            description={
-                                                <strong style={{ color: 'red' }}>
-                                                    Giá: {item.price} VND
-                                                    </strong>
-                                            }
-                                        />
-                                    </Card>
-                                </List.Item>
-                            )
-                        }}
-                    />
-                }
-            </Card>
+            {data && data[1] && data[1].map((category, index) => {
+                const dataSource = data[0].filter((product) => {
+                    return product.category.id === category.id
+                })
+                return (
+                    <div key={index}>
+                        <ProductListByCategory
+                            id={index}
+                            categoryId={category.id}
+                            title={category.name}
+                            data={dataSource}
+                            addToCart={addToCart}
+                        />
+                    </div>
+                )
+            })
+            }
             <Modal
                 width={700}
                 title={
@@ -275,4 +227,112 @@ const Counter = (props) => {
 
 }
 
+const ProductListByCategory = (props) => {
+    const { addToCart, title, id, categoryId } = props;
+    let { data } = props;
+    return (
+        <div
+            id={categoryId}
+            style={{ marginBottom: 20 }}
+        >
+            <Card
+                title={
+                    <strong className="productList-title">
+                        <FontAwesomeIcon
+                            className="icon-title"
+                            icon={listCarIcon[id].name}
+                            color="white"
+                            style={{ marginRight: 15 }}
+                        />
+                        {title}
+                    </strong>
+                }
+                extra={
+                    <a
+                        href="/"
+                        style={{ color: 'white' }}>
+                        +Filters
+                    </a>
+                }
+                className="product-list"
+                headStyle={{
+                    backgroundColor: '#40a9ff',
+                }}
+            >
+                {
+                    data &&
+                    <List
+                        grid={{ gutter: 15, column: 4 }}
+                        dataSource={data}
+                        pagination={{
+                            pageSize: 8,
+                            position: 'bottom',
+                            showSizeChanger: true,
+                            pageSizeOptions: ['8', '16', '24'],
+                        }}
+                        renderItem={item => {
+                            return (
+                                <List.Item>
+                                    <Card
+                                        hoverable
+                                        style={{ width: 290, margin: 'auto' }}
+                                        cover={
+                                            <img alt="example"
+                                                style={{
+                                                    height: '200px',
+                                                    objectFit: 'contain'
+                                                }}
+
+                                                src={require(`../../../Public/Images/${item.image}`)}
+                                                className="product-image"
+                                            />
+                                        }
+                                        bordered={true}
+                                    >
+                                        <span className="order-product">
+                                            <Button
+                                                type="primary"
+                                                icon="shopping-cart"
+                                                style={{ marginRight: '2px' }}
+                                                onClick={() => { addToCart(item) }}
+                                            >
+                                                Thêm vào giỏ
+                                            </Button>
+                                            <Link to={
+                                                {
+                                                    pathname: `/product/${item.name}`,
+                                                    state: { id: item.id }
+                                                }
+                                            }
+                                            >
+                                                <Button
+                                                    type="primary"
+                                                    icon="search"
+                                                >
+                                                    Xem sản phẩm
+                                            </Button>
+                                            </Link>
+
+                                        </span>
+
+                                        <Meta style={{ marginTop: '8px', textAlign: 'center' }}
+                                            title={
+                                                <strong>{item.name}</strong>
+                                            }
+                                            description={
+                                                <strong style={{ color: 'red' }}>
+                                                    Giá: {item.price} VND
+                                                    </strong>
+                                            }
+                                        />
+                                    </Card>
+                                </List.Item>
+                            )
+                        }}
+                    />
+                }
+            </Card>
+        </div>
+    )
+}
 export { ProductList, Counter }
