@@ -1,4 +1,34 @@
-.menu-home .ant-menu-item{
+.menu-home .ant-menu-item {
     height: 70px;
     line-height: 70px;
+}
+.log-in-out {
+    cursor: pointer;
+}
+.icon-user {
+    margin-right: 5px;
+    transition: 0.3s;
+}
+.user-profile {
+    cursor: pointer;
+}
+.user-profile :hover {
+    text-decoration: underline;
+    color: #0050b3;
+}
+.user-profile :hover .icon-user {
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 100px;
+    background-color: white;
+}
+.log-in-out :hover {
+    text-decoration: underline;
+    color: #0050b3;
+}
+.log-in-out :hover .icon-user {
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 100px;
+    background-color: white;
 }

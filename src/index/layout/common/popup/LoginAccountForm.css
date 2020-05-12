@@ -1,0 +1,22 @@
+.login-form {
+    margin-bottom: -25px;
+}
+.modal-login-form .ant-modal-footer{
+    text-align: center;
+}
+.modal-login-form .ant-modal-footer button{
+    width: 190px;
+}
+.modal-login-form .ant-modal-header {
+    background-color: #40a9ff;
+}
+.modal-login-form .ant-modal-header > div {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
+}
+.modal-login-form .ant-modal-header  i {
+    margin-left: 10px;
+    font-size: large;
+}

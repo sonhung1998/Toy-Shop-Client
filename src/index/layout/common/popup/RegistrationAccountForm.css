@@ -1,0 +1,17 @@
+.modal-form .ant-modal-header {
+    background-color: #40a9ff;
+}
+.modal-form .ant-modal-header > div {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
+}
+.modal-form .ant-modal-header  i {
+    margin-left: 10px;
+    font-size: large;
+}
+.registration-form .ant-row {
+    margin-bottom: unset;
+    margin-top: -10px;
+}

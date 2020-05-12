@@ -4,6 +4,7 @@ import './Order.css'
 import CartContext from '../contexts/CartContext'
 import { Link } from 'react-router-dom'
 import APIClient from '../utils/APIClient'
+import { connect } from 'react-redux'
 const CITY = require('../city.json')
 let DISTRICT = require('../district.json')
 
@@ -17,7 +18,7 @@ const Order = (props) => {
     }
 
     return (
-        <div >
+        <div className="order-container">
             <Row>
                 <Col span={16}>
                     <Row style={{ textAlign: 'center' }}>
@@ -196,16 +197,20 @@ const Order = (props) => {
 }
 export default Order
 
-const OrderFormBase = (props) => {
+const OrderFormBase = ({ user, form }) => {
+    console.log("userOrder:", user)
     const { cartList } = useContext(CartContext);
     const [city, setCity] = useState(0);
     DISTRICT = Object.values(DISTRICT);
-    let districtOfCity = DISTRICT.filter((item) => { return (item.path.includes(city) || item.path_with_type.includes(city)) })
+    let districtOfCity = DISTRICT.filter(
+        (item) => {
+            return (item.path.includes(city) || item.path_with_type.includes(city))
+        })
 
     const handleChangeCity = (value) => {
         setCity(value);
     }
-    const { getFieldDecorator } = props.form;
+    const { getFieldDecorator } = form;
 
     const formItemLayout = {
         labelCol: {
@@ -238,11 +243,11 @@ const OrderFormBase = (props) => {
         else {
             callback()
         }
-
     }
+
     const handleSubmit = e => {
         e.preventDefault();
-        props.form.validateFields(async (err, values) => {
+        form.validateFields(async (err, values) => {
             if (!err) {
                 const { city, district } = values;
                 const address = { city, district };
@@ -268,82 +273,52 @@ const OrderFormBase = (props) => {
             {...formItemLayout}
             onSubmit={handleSubmit}
         >
+            <Form.Item  hasFeedback>
+                {
+                    getFieldDecorator("id", {
+                        initialValue: user.id,
+                    })
+                        (<Input hidden />)
+                }
+            </Form.Item>
             <Form.Item label="Email" hasFeedback>
                 {
                     getFieldDecorator("email", {
-                        rules: [
-                            {
-                                type: 'email',
-                                message: 'The input is not valid E-mail!',
-                            },
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập Email',
-                            },
-                        ],
+                        initialValue: user.account.email,
                     })
-                        (<Input />)
+                        (<Input disabled />)
                 }
             </Form.Item>
             <Form.Item label="Họ" hasFeedback>
                 {
                     getFieldDecorator("firstName", {
-                        rules: [
-                            {
-                                validator: validateName
-                            },
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập Họ',
-                            },
-                        ],
+                        initialValue: user.firstName,
                     })
-                        (<Input />)
+                        (<Input disabled />)
                 }
             </Form.Item>
             <Form.Item label="Tên" hasFeedback>
                 {
                     getFieldDecorator("lastName", {
-                        rules: [
-                            {
-                                validator: validateName
-                            },
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập tên',
-                            },
-                        ],
+                        initialValue: user.lastName,
                     })
-                        (<Input />)
+                        (<Input disabled />)
                 }
             </Form.Item>
             <Form.Item label="Số điện thoại" hasFeedback>
                 {
                     getFieldDecorator("phone", {
-                        rules: [
-                            {
-                                validator: validateNumber
-                            },
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập số điện thoại',
-                            },
-                        ],
+                        initialValue: user.phone,
                     })
-                        (<Input />)
+                        (<Input disabled />)
                 }
             </Form.Item>
             <Form.Item label="Địa chỉ" hasFeedback>
                 {
                     getFieldDecorator("addressDetail", {
-                        rules: [
-                            {
-                                required: true,
-                                message: 'Vui lòng nhập địa chỉ',
-                            },
-                        ],
+                        initialValue: user.addressDetail,
                     })
-                        (<Input />)
+                        (<Input disabled />)
                 }
             </Form.Item>
             <Form.Item label="Tỉnh / Thành Phố" hasFeedback>
@@ -399,16 +374,16 @@ const OrderFormBase = (props) => {
                         </Select>)
                 }
             </Form.Item>
-            <Form.Item label="Ghi chú" hasFeedback>
-                {
-                    getFieldDecorator("note")
-                        (<Input.TextArea rows={5} />)
-                }
-            </Form.Item>
         </Form>
     )
 
 }
+const mapStateToProps = (state) => {
+    return {
+        user: state.currentUser
+    }
+}
+
 const FormOrder = Form.create({ name: "order_form" })(
-    OrderFormBase
+    connect(mapStateToProps, null)(OrderFormBase)
 );

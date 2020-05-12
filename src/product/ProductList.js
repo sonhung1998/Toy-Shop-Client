@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Row, Button, List, Card, Modal, Table, message } from 'antd'
+import { Row, Button, List, Card, Modal, Table, notification } from 'antd'
 import APIClient from '../utils/APIClient'
 import CartContext from '../contexts/CartContext.js'
 import './ProductList.css'
@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { useHistory, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCar, faTruck, faCarBattery, faCarSide, faCaravan } from '@fortawesome/free-solid-svg-icons'
+import { connect } from "react-redux";
 const { Meta } = Card;
 
 const listCarIcon = [
@@ -17,8 +18,14 @@ const listCarIcon = [
     { id: 4, name: faCarSide },
     { id: 5, name: faCaravan }
 ];
+const openNotificationWithIcon = (type, description) => {
+    notification[type]({
+        message: 'Có lỗi xảy ra',
+        description: description
 
-const ProductList = (props) => {
+    });
+};
+const ProductList = ({ user }) => {
     const { cartList, updateCart } = useContext(CartContext);
     const history = useHistory();
     let [data, setData] = useState(null);
@@ -132,6 +139,7 @@ const ProductList = (props) => {
                     <div key={index}>
                         <ProductListByCategory
                             id={index}
+                            user={user}
                             categoryId={category.id}
                             title={category.name}
                             data={dataSource}
@@ -228,7 +236,7 @@ const Counter = (props) => {
 }
 
 const ProductListByCategory = (props) => {
-    const { addToCart, title, id, categoryId } = props;
+    const { addToCart, title, id, categoryId, user } = props;
     let { data } = props;
     return (
         <div
@@ -294,7 +302,13 @@ const ProductListByCategory = (props) => {
                                                 type="primary"
                                                 icon="shopping-cart"
                                                 style={{ marginRight: '2px' }}
-                                                onClick={() => { addToCart(item) }}
+                                                onClick={() => {
+                                                    if (_.isEmpty(user)) {
+                                                        openNotificationWithIcon("error", "Bạn cần đăng nhập để đặt hàng !");
+                                                        return;
+                                                    }
+                                                    addToCart(item)
+                                                }}
                                             >
                                                 Thêm vào giỏ
                                             </Button>
@@ -335,4 +349,11 @@ const ProductListByCategory = (props) => {
         </div>
     )
 }
-export { ProductList, Counter }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.currentUser
+    }
+}
+const ProductListContainer = connect(mapStateToProps, null)(ProductList)
+export { ProductListContainer, Counter }
