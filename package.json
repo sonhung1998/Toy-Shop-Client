@@ -16,7 +16,7 @@
     "customize-cra": "^0.9.1",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
-    "moment": "^2.25.3",
+    "moment": "^2.29.4",
     "react": "^16.12.0",
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.12.0",
